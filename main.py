@@ -3,9 +3,8 @@ from clients.gpt_client import GptClient
 from dotenv import dotenv_values
 import logging
 from services.audio_input_service import AudioInputService
-import argparse
-
 from services.manual_input_service import ManualInputService
+import argparse
 
 
 if __name__ == '__main__':
