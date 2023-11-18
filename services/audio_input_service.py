@@ -14,7 +14,7 @@ class AudioInputService:
         while not awake:
             try:
                 speech = self.client.speech_to_text()
-                print("speech: ", speech)
+                self.__logger.info("speech: %s", speech)
                 if phrase.lower() in speech.lower():
                     awake = True
             except AudioInputClientException:
@@ -26,4 +26,4 @@ class AudioInputService:
             return text
         except AudioInputClientException:
             self.__logger.error("Error in Audio input client")
-            raise AudioInputServiceException
+            return ""

@@ -17,20 +17,23 @@ if __name__ == '__main__':
     with open("personalities/test_personality.txt") as file:
         personality = file.read()
 
-    # audio_input = AudioInputService()
-    # audio_input.wake_up("hey")
-    # print("awake")
+    audio_input = AudioInputService()
+    audio_input.wake_up("hey")
+    print("Tom is awake")
+
+    # Ask a question
+    query = ""
+    while query is "":
+        query = audio_input.speech_to_text()
 
     # Generate Gpt output
     gpt = GptClient(env["GPT_API_KEY"], personality)
-    query: str = "What is the capital of Hungary?"
     response: str = gpt.get_response(query)
     print(response)
 
     # Output text as audio
     audio_output = AudioOutputClient(env["ELEVENLABS_API_KEY"])
-    voices = AudioOutputClient.get_voices()
-    audio_output.play_audio(response, "Tom Goodman")
+    # audio_output.play_audio(response, "Tom Goodman")
 
     logger.info("Execution complete")
 
