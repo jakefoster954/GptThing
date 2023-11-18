@@ -28,8 +28,9 @@ if __name__ == '__main__':
     print(response)
 
     # Output text as audio
-    audio_output = AudioOutputClient()
-    audio_output.play_audio(response)
+    audio_output = AudioOutputClient(env["ELEVENLABS_API_KEY"])
+    voices = AudioOutputClient.get_voices()
+    audio_output.play_audio(response, "Tom Goodman")
 
     logger.info("Execution complete")
 
