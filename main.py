@@ -1,16 +1,25 @@
-# This is a sample Python script.
+from clients.gpt_client import GptClient
+from dotenv import dotenv_values
+import logging
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
-
-
-# Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    print_hi('PyCharm')
+    logger.info("Running")
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    # Load env values
+    env = dotenv_values(".env")
+
+    # Load personality for GPT
+    with open("personalities/test_personality.txt") as file:
+        personality = file.read()
+
+    # Generate Gpt output
+    gpt = GptClient(env["GPT_API_KEY"], personality)
+    query: str = "What is the capital of Hungary?"
+    response: str = gpt.get_response(query)
+    print(response)
+
+    logger.info("Execution complete")
+
