@@ -1,0 +1,2 @@
+class AudioInputClientException(Exception):
+    pass
