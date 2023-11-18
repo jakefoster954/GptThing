@@ -1,2 +1,0 @@
-class AudioInputServiceException(Exception):
-    pass

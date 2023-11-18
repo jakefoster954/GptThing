@@ -1,6 +1,5 @@
 from clients.audio_input_client import AudioInputClient
 from exceptions.audio_input_client_exceptions import AudioInputClientException
-from exceptions.audio_input_service_exceptions import AudioInputServiceException
 import logging
 
 
