@@ -25,13 +25,12 @@ class AudioInputClient:
             with self.__noalsaerr():
                 with sr.Microphone() as source:
                     self.r.dynamic_energy_threshold = False
-                    self.r.energy_threshold = 400
-                    self.r.adjust_for_ambient_noise(source=source, duration=1)
+                    self.r.energy_threshold = 1000
         except sr.UnknownValueError:
             self.__logger.error("No speech detected.")
             raise AudioInputClientException("No speech detected")
         except sr.RequestError as e:
-            self.__logger.error("Could not request results from the speech recognition service; {0}".format(e))
+            self.__logger.error("Could not request results from the speech recognition service; %s", e)
             raise AudioInputClientException("Could not request results from the speech recognition service")
 
 
@@ -48,7 +47,7 @@ class AudioInputClient:
             with self.__noalsaerr():
                 with sr.Microphone() as source:
                     self.__logger.info("Microphone being used")
-                    audio = self.r.listen(source=source)
+                    audio = self.r.listen(source=source, timeout=2, phrase_time_limit=8)
                     self.__logger.info("Audio Received")
                     text = self.r.recognize_google(audio)
                     self.__logger.info("Audio recognised: %s", text)
@@ -56,6 +55,9 @@ class AudioInputClient:
         except sr.UnknownValueError:
             self.__logger.error("No speech detected.")
             raise AudioInputClientException("No speech detected")
+        except sr.WaitTimeoutError:
+            self.__logger.error("No speech detected - Timed out.")
+            raise AudioInputClientException("No speech detected - Timed out")
         except sr.RequestError as e:
-            self.__logger.error("Could not request results from the speech recognition service; {0}".format(e))
+            self.__logger.error("Could not request results from the speech recognition service; %s", e)
             raise AudioInputClientException("Could not request results from the speech recognition service")
